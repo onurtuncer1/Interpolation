@@ -1,6 +1,6 @@
-#Interpolation
+# Interpolation
 
-##Overview
+## Overview
 
 Provides jerk limited interpolation routines for a CNC controller.
 
@@ -10,7 +10,7 @@ Provides jerk limited interpolation routines for a CNC controller.
 **Contributors** 
 **Date:** June, 2023
 
-##Dependencies
+## Dependencies
 
-##Building 
+## Building 
 
