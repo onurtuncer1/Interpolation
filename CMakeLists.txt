@@ -9,12 +9,10 @@ cmake_minimum_required(VERSION 3.22)
 
 project(interpolation LANGUAGES CXX)
 
-set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
+set(SRC_DIR       "${PROJECT_SOURCE_DIR}/src")
 set(3RD_PARTY_DIR "${PROJECT_SOURCE_DIR}/vendor")
 
 message(STATUS "Third party directory:  " ${3RD_PARTY_DIR})
-
-
 
 # ----------------Looking for git and updating submodules---------------------------------------
 find_package(Git QUIET)
@@ -48,11 +46,11 @@ set(BUILD_SHARED_LIBS  OFF CACHE BOOL ""  FORCE)
 
 add_subdirectory(${3RD_PARTY_DIR}/ruckig)
 
-FILE(GLOB SOURCE_FILES ${SRC_DIR}/*.cpp)
+file(GLOB SOURCE_FILES PRIVATE ${SRC_DIR}/*.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX ""
+set_target_properties(${PROJECT_NAME} PROPERTIES  PREFIX ""
                                                   OUTPUT_NAME ${PROJECT_NAME}
                                                   CXX_STANDARD 20
                                                   CXX_STANDARD_REQUIRED ON
@@ -63,7 +61,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ruckig)
 target_compile_options(${PROJECT_NAME} PUBLIC -DRELEASE
                                                -Wall
                                                -Werror
+                                               -Wextra
                                                -Wpedantic)
 
-target_include_directories(${PROJECT_NAME} PUBLIC  ${3RD_PARTY_DIR}/glm)
-                                               #    ${3RD_PARTY_DIR}/ruckig/include)                                                  
+target_include_directories(${PROJECT_NAME} PRIVATE  ${3RD_PARTY_DIR}/glm)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    PUBLIC_HEADER "${SRC_DIR}/Sim_Instruction.h;
+                   ${SRC_DIR}/Sim_Functions.h")

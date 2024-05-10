@@ -366,18 +366,37 @@ Circle_Intersection_Output SIM_circcirc(double x0, double y0, double r0, double 
 	return result;
 }
 
-struct orientation_profile
-{
-	std::deque<glm::dvec3> orientations;
-	std::deque<glm::dvec3> orientation_velocities;
-	std::deque<glm::dvec3> orientation_accelerations;
-	std::deque<glm::dvec3> orientation_jerks;
-	std::deque<double> theta; 	// angle of rotation of instant orientation on the plane
-	std::deque<double> theta_velocity;
-	std::deque<double> theta_acceleration;
-	glm::dvec3 normal_vector_of_rotation;
+struct orientation_profile {
+    // Member variables
+    std::deque<glm::dvec3> orientations;
+    std::deque<glm::dvec3> orientation_velocities;
+    std::deque<glm::dvec3> orientation_accelerations;
+    std::deque<glm::dvec3> orientation_jerks;
+    std::deque<double> theta;
+    std::deque<double> theta_velocity;
+    std::deque<double> theta_acceleration;
+    glm::dvec3 normal_vector_of_rotation{};
 
-};
+    // Constructor
+    orientation_profile(const std::deque<glm::dvec3>& ori,
+                        const std::deque<glm::dvec3>& vel,
+                        const std::deque<glm::dvec3>& acc,
+                        const std::deque<glm::dvec3>& jer,
+                        const std::deque<double>& th,
+                        const std::deque<double>& th_vel,
+                        const std::deque<double>& th_acc,
+                        const glm::vec3& normal = glm::vec3(0.0f))
+        : orientations(ori),
+          orientation_velocities(vel),
+          orientation_accelerations(acc),
+          orientation_jerks(jer),
+          theta(th),
+          theta_velocity(th_vel),
+          theta_acceleration(th_acc),
+          normal_vector_of_rotation(normal) {/*empty*/}
+	
+}; // struct orientation_profile
+
 
 double get_angle_between_vectors(const Interpolation_Input& input) // calculates angle between orientations (rad)
 {
@@ -394,12 +413,12 @@ orientation_profile get_mid_orientation_with_rodrigues(const Interpolation_Input
 		std::deque<glm::dvec3> orientations(mid_res.displacement_variation.size(), input.start_pose.orientation); 		// If there is no change in orientation, equalize it
 		
 		std::deque<glm::dvec3> orientation_vels(mid_res.displacement_variation.size(), {{0}, {0}, {0}});
-		std::deque<glm::dvec3> orientation_accs(move(orientation_vels));
-		std::deque<glm::dvec3> orientation_jerks(move(orientation_vels));
+		std::deque<glm::dvec3> orientation_accs(orientation_vels);
+		std::deque<glm::dvec3> orientation_jerks(orientation_vels);
 
 		std::deque<double> theta(mid_res.displacement_variation.size(), 0.0);
-		std::deque<double> theta_vel(move(theta));
-		std::deque<double> theta_acc(move(theta));
+		std::deque<double> theta_vel(theta);
+		std::deque<double> theta_acc(theta);
 
 		return orientation_profile{orientations, orientation_vels, orientation_accs, orientation_jerks, theta, theta_vel, theta_acc};
 	}

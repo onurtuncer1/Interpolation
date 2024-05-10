@@ -13,27 +13,27 @@
 
 // NOTE(batuhan): The Art of Computer Programming by Donald Knuth, Volume II: Chapter IV
 inline static
-bool SIM_approximately_equal(double x, double y, double margin = 1)
+bool SIM_approximately_equal(double x, double y /*, double margin = 1 */)
 {
 	//return (fabs(x - y) <= (SIM_MAX(fabs(x), fabs(y)) * margin));
 	return x == y;
 }
 
 inline static
-bool SIM_essentially_equal(double x, double y, double margin = 1)
+bool SIM_essentially_equal(double x, double y/* , double margin = 1 */)
 {
 	//return (fabs(x - y) <= (SIM_MIN(fabs(x), fabs(y)) * margin));
 	return x == y;
 }
 
 // x > y
-inline static bool SIM_definitely_greater_than(double x, double y, double margin = 1) {
+inline static bool SIM_definitely_greater_than(double x, double y/* , double margin = 1 */) {
 	//return (x - y > (SIM_MAX(fabs(x), fabs(y)) * margin));
 	return x > y;
 }
 
 // x < y
-inline static bool SIM_definitely_less_than(double x, double y, double margin = 1)
+inline static bool SIM_definitely_less_than(double x, double y/* , double margin = 1 */)
 {
 	//return (y - x > (SIM_MAX(fabs(x), fabs(y)) * margin));
 	return x < y;
